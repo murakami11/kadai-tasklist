@@ -1,7 +1,10 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   def index
-    @tasks = Task.all
+    @title = "タスク一覧"
+    # @task = Task.find(5)
+    @task = Task.new
+    @tasks = Task.all.page(params[:page]).per(3)
   end
   
   def show
@@ -12,6 +15,7 @@ class TasksController < ApplicationController
   end
   
   def create
+    # redirect_to "http://yahoo.co.jp" and return
     @task = Task.new(task_params)
     
     if @task.save
@@ -21,12 +25,14 @@ class TasksController < ApplicationController
       flash.now[:danger] = 'Task が投稿されませんでした'
       render :new
     end
+
   end
   
   def edit
   end
   
   def update
+    # redirect_to "http://yahoo.com/" and return
     if @task.update(task_params)
       flash[:success] = 'task は正常に更新されました'
       redirect_to @task
