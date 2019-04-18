@@ -1,10 +1,14 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   def index
-    @title = "タスク一覧"
-    # @task = Task.find(5)
-    @task = Task.new
-    @tasks = Task.all.page(params[:page]).per(3)
+    if logged_in?
+      @title = "タスク一覧"
+      # @task = Task.find(5)
+      @task = Task.new
+      @tasks = Task.all.page(params[:page]).per(3)
+    else
+      redirect_to login_path
+    end
   end
   
   def show
@@ -17,6 +21,13 @@ class TasksController < ApplicationController
   def create
     # redirect_to "http://yahoo.co.jp" and return
     @task = Task.new(task_params)
+    # current_userはログインしているUser自身のインスタンスが入っている
+    # SessionsHelperのメソッドとして定義されており、それをApplicationControllerにMix-inしている
+    # それをTasksController内で継承しているので、ここでもそのメソッドを使用することができる。
+    @task.user_id = current_user.id
+    # @task.user = current_user
+    
+    # @task = current_user.tasks.build(task_params)
     
     if @task.save
       flash[:success] = 'Task が正常に投稿されました'

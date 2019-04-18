@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
+  # includeはそのModuleのメソッドを、クラスのインスタンスメソッドとして使用することができる
+  # これをMix-inという
   include SessionsHelper
   
   private
@@ -12,6 +14,6 @@ class ApplicationController < ActionController::Base
   end
   
   def counts(user)
-    @count_microposts = user.microposts.count
+    @count_tasks = user.tasks.count
   end
 end
