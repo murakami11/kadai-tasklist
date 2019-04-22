@@ -5,7 +5,12 @@ class TasksController < ApplicationController
       @title = "タスク一覧"
       # @task = Task.find(5)
       @task = Task.new
-      @tasks = Task.all.page(params[:page]).per(3)
+      # ログインしているユーザーが持っているタスクのみを表示する
+      # @tasks = Task.all.page(params[:page]).per(10)
+      # 現在ログインしているユーザーはcurrent_userで取得できる。
+      # current_userはhelpers/sessions_helper.rbに記載されてある
+      # @tasks = Task.where(user_id: current_user.id).page(params[:page]).per(10)
+      @tasks = current_user.tasks.page(params[:page]).per(10)
     else
       redirect_to login_path
     end
