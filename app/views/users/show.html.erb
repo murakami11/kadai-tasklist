@@ -9,20 +9,4 @@
       </div>
     </div>
   </aside>
-  <div class="col-xs-8">
-    <table class="table">
-      <tr>
-        <th>ID</th>
-        <th>Content</th>
-        <th>Status</th>
-      </tr>
-      <% @tasks.each do |task| %>
-        <tr>
-          <td><%= task.id %></td>
-          <td><%= task.content %></td>
-          <td><%= task.status %></td>
-        </tr>
-      <% end %>
-    </table>
-  </div>
 </div>
